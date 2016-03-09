@@ -13,6 +13,7 @@
 		778856D91C9009D200E7D674 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 778856D71C9009D200E7D674 /* Main.storyboard */; };
 		778856DB1C9009D200E7D674 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 778856DA1C9009D200E7D674 /* Assets.xcassets */; };
 		778856DE1C9009D200E7D674 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 778856DC1C9009D200E7D674 /* LaunchScreen.storyboard */; };
+		778856EF1C903ED900E7D674 /* LQCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 778856EE1C903ED900E7D674 /* LQCollectionViewWaterfallLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		778856DA1C9009D200E7D674 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		778856DD1C9009D200E7D674 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		778856DF1C9009D200E7D674 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		778856ED1C903ED900E7D674 /* LQCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LQCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
+		778856EE1C903ED900E7D674 /* LQCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LQCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +65,8 @@
 				778856D21C9009D200E7D674 /* AppDelegate.m */,
 				778856D41C9009D200E7D674 /* ViewController.h */,
 				778856D51C9009D200E7D674 /* ViewController.m */,
+				778856ED1C903ED900E7D674 /* LQCollectionViewWaterfallLayout.h */,
+				778856EE1C903ED900E7D674 /* LQCollectionViewWaterfallLayout.m */,
 				778856D71C9009D200E7D674 /* Main.storyboard */,
 				778856DA1C9009D200E7D674 /* Assets.xcassets */,
 				778856DC1C9009D200E7D674 /* LaunchScreen.storyboard */,
@@ -149,6 +154,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				778856EF1C903ED900E7D674 /* LQCollectionViewWaterfallLayout.m in Sources */,
 				778856D61C9009D200E7D674 /* ViewController.m in Sources */,
 				778856D31C9009D200E7D674 /* AppDelegate.m in Sources */,
 				778856D01C9009D200E7D674 /* main.m in Sources */,
@@ -298,6 +304,7 @@
 				778856E41C9009D200E7D674 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
