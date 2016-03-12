@@ -37,7 +37,7 @@
 {
     //模拟尺寸
     CGFloat height = arc4random()%100 + 200;
-    return CGSizeMake([UIScreen mainScreen].bounds.size.width /2 - 10, height);
+    return CGSizeMake(([UIScreen mainScreen].bounds.size.width - 5)/2, height);
 }
 
 
