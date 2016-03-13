@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSMutableDictionary *layoutInformation;
 @property (nonatomic, strong) NSMutableArray *heightArray;
+@property (nonatomic, assign) CGFloat headerHeight;
 
 @end
 
@@ -19,12 +20,21 @@
 
 - (void)prepareLayout
 {
-    self.heightArray = [NSMutableArray array];
-    for (NSInteger i = 0; i < self.colNum; i++) {
-        [self.heightArray addObject:@(0)];
-    }
     
     self.layoutInformation = [NSMutableDictionary dictionary];
+    self.heightArray = [NSMutableArray array];
+    
+    //collectionView header
+    CGSize headerSize = [self.delegate collectionView:self.collectionView layout:self referenceSizeForHeaderInSection:0];
+    UICollectionViewLayoutAttributes *headerAttr = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader withIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+    headerAttr.frame = CGRectMake(0, 0, headerSize.width, headerSize.height);
+    self.headerHeight = headerSize.height;
+    [self.layoutInformation setObject:headerAttr forKey:@"header"];
+    
+    for (NSInteger i = 0; i < self.colNum; i++) {
+        [self.heightArray addObject:@(self.headerHeight)];
+    }
+    
     NSIndexPath *indexPath;
     NSInteger numSections = [self.collectionView numberOfSections];
     for (NSInteger section = 0; section < numSections; section++) {
@@ -35,7 +45,7 @@
             [self.layoutInformation setObject:attributes forKey:indexPath];
         }
     }
-    
+
 }
 
 - (UICollectionViewLayoutAttributes *)attributesAtIndexPath:(NSIndexPath *)indexPath
@@ -69,12 +79,23 @@
             [attributesArray addObject:attributes];
         }
     }
+    UICollectionViewLayoutAttributes *headerAttr = [self.layoutInformation objectForKey:@"header"];
+    if (headerAttr && CGRectIntersectsRect(rect, headerAttr.frame)) {
+        [attributesArray addObject:headerAttr];
+    }
+    
     return attributesArray;
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return [self.layoutInformation objectForKey:indexPath];
+}
+
+
+- (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.layoutInformation objectForKey:@"header"];
 }
 
 - (CGSize)collectionViewContentSize
