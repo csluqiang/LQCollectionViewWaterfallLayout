@@ -12,6 +12,8 @@
 @interface ViewController ()
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UIView *collectionViewHeader;
+@property (nonatomic, strong) NSMutableArray *cellHeightArray;
+@property (nonatomic, assign) CGFloat headerHeight;
 @end
 
 @implementation ViewController
@@ -30,6 +32,14 @@
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.dataSource = self;
     [self.view addSubview:self.collectionView];
+    self.headerHeight = 200;
+    
+    //构造高度数据
+    self.cellHeightArray = [NSMutableArray arrayWithCapacity:30];
+    for (NSInteger i = 0; i < 30; i++) {
+        CGFloat height = arc4random()%100 + 200;
+        [self.cellHeightArray addObject:@(height)];
+    }
     
 }
 
@@ -38,13 +48,14 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //模拟尺寸
-    CGFloat height = arc4random()%100 + 200;
+    CGFloat height = [self.cellHeightArray[indexPath.row] doubleValue];
+    
     return CGSizeMake(([UIScreen mainScreen].bounds.size.width - 5)/2, height);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    return CGSizeMake([UIScreen mainScreen].bounds.size.width, 200);
+    return CGSizeMake([UIScreen mainScreen].bounds.size.width, self.headerHeight);
 }
 
 
@@ -82,10 +93,45 @@
     if (!_collectionViewHeader) {
         _collectionViewHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 200)];
         _collectionViewHeader.backgroundColor = [UIColor greenColor];
+        
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 50, 250, 30)];
+        btn.backgroundColor = [UIColor grayColor];
+        [btn setTitle:@"click to animate the header" forState:UIControlStateNormal];
+        [_collectionViewHeader addSubview:btn];
+        [btn addTarget:self action:@selector(animationChangeHeader:) forControlEvents:UIControlEventTouchUpInside];
+        btn.tag = 0;
     }
     return _collectionViewHeader;
 }
 
+- (void)animationChangeHeader:(UIButton *)btn
+{
+    if (btn.tag == 0) {
+        btn.tag = 1;
+        self.headerHeight = 100;
+        [UIView animateWithDuration:0.8 animations:^{
+            self.collectionViewHeader.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, self.headerHeight);
+            [self.collectionView.visibleCells enumerateObjectsUsingBlock:^(__kindof UICollectionViewCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                obj.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y - self.headerHeight, obj.frame.size.width, obj.frame.size.height);
+            }];
+        } completion:^(BOOL finished) {
+            [self.collectionView reloadData];
+        }];
+    } else {
+        btn.tag = 0;
+        self.headerHeight = 200;
+        [UIView animateWithDuration:0.8 animations:^{
+            self.collectionViewHeader.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, self.headerHeight);
+            [self.collectionView.visibleCells enumerateObjectsUsingBlock:^(__kindof UICollectionViewCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                 obj.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y + self.headerHeight, obj.frame.size.width, obj.frame.size.height);
+            }];
+        } completion:^(BOOL finished) {
+            [self.collectionView reloadData];
+        }];
+    }
+    
+   
+}
 
 
 - (void)didReceiveMemoryWarning {
